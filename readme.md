@@ -44,7 +44,7 @@ Universal and lightweight template for your bot built with `disnake`. Easily add
 3. **Configure your bot**:
    - Create a `.env` file in the project root:
      ```ini
-     TOKEN="your bot token here"
+     TOKEN="your_bot_token_here"
      ```
    - Or edit `config.py` with your token and settings.
 
@@ -76,8 +76,9 @@ python main.py
 
 ## Useful Links
 
-- [Project Repository](https://github.com/Ananas1kexe/bot-on-disnake/)
-- [MIT License](https://github.com/Ananas1kexe/bot-on-disnake/blob/main/LICENSE)
+- [Project Repository](https://github.com/YourUsername/discord-python-bot)
+- [MIT License](https://github.com/YourUsername/discord-python-bot/blob/main/LICENSE)
+
 ---
 
 ## License

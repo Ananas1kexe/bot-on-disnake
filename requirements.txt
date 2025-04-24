@@ -1,1 +1,3 @@
 Disnake
+PIL
+aiosqlite
