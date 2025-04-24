@@ -1,0 +1,27 @@
+mute
+unmute
+kick
+ban
+unban
+warn
+unwarn
+clear
+slowmode
+
+
+
+avatar - ready
+userinfo
+serverinfo
+ping - ready
+roleinfo 
+
+poll создание голосования
+suggest предложение с созданием ветки 
+
+word случайное слово с переводом
+
+
+
+say бот повторяет текст - ready
+color показывает цвет - ready
