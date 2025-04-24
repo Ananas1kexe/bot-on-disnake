@@ -54,6 +54,50 @@ class moderation(commands.Cog):
         )
         await inter.response.send_message(embed=embed)
 
+    @commands.slash_command(description="warn")
+    async def warn(self, inter: disnake.AppCommandInter, member: disnake.Member, reason: str = None):
+        async with aiosqlite.connect("main.db") as db:
+            async with db.execute("""
+                SELECT COUNT(*) FROM warnings
+                WHERE user_id = ?
+                """, (member.id,)) as cursor:
+                warning_count = await cursor.fetchone()
+                warning_count = warning_count[0] + 1
+            await db.execute("""
+                INSERT OR REPLACE INTO warnings (user_id, warn_id, reason)
+                VALUES (?, ?, ?)
+                """, (member.id, warning_count, reason))
+            await db.commit()
+
+        
+        embed = disnake.Embed(
+            title="Succes",
+            description=f"Member: {member.name}\nReason: {reason}\Warn ID: {warning_count}"
+        )
+        
+        await inter.response.send_message(embed=embed)
+    
+    
+
+
+    @commands.slash_command(description="unwarn")
+    async def unwarn(self, inter: disnake.AppCommandInter, member: disnake.Member, id: int, reason: str = None):
+        async with aiosqlite.connect("main.db") as db:
+            await db.execute("""
+                DELETE FROM warnings WHERE user_id = ? AND warn_id = ?
+                """, (member.id, id))
+            await db.commit()
+
+        
+        embed = disnake.Embed(
+            title="Succes",
+            description=f"Member: {member.name}\nReason: {reason}"
+        )
+        
+        await inter.response.send_message(embed=embed)
+    
+
+
     @commands.slash_command(description="mute")
     async def mute(self, inter: disnake.AppCommandInter, member: disnake.Member, duration: int, reason: str = None):
 
