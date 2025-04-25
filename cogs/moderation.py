@@ -15,13 +15,14 @@ class moderation(commands.Cog):
             channel = inter.channel
         
         try:
-            channel.edit(slowmode_delay=duration)
+            await channel.edit(slowmode_delay=duration)
         except disnake.Forbidden:
             return
         
         embed = disnake.Embed(
             title="Succes",
-            description=f"Duration: {duration}\nChannel: {channel.mention}"
+            description=f"Duration: {duration}\nChannel: {channel.mention}",
+            color=disnake.Color.green()
         )
 
         await inter.response.send_message(embed=embed)
@@ -30,17 +31,16 @@ class moderation(commands.Cog):
     @commands.has_permissions(manage_messages=True)
     async def clear(self, inter: disnake.AppCommandInter, amout: int):
         
-        messages = inter.channel.history(limit=int(amout)).flatten()
-        await inter.channel.purge(messages)
-        
+        await inter.channel.purge(limit=amout)
         embed = disnake.Embed(
             title="Succes",
-            description=f"Amount: {amout}\nChannel: {inter.channel.mention}"
+            description=f"Amount: {amout}\nChannel: {inter.channel.mention}",
+            color=disnake.Color.green()
         )
         await inter.response.send_message(embed=embed)
     
 
-    @commands.slash_command(description="ping")
+    @commands.slash_command(description="kick")
     async def kick(self, inter: disnake.AppCommandInter, member: disnake.Member, reason: str = None):
         
         if reason is None:
@@ -50,7 +50,8 @@ class moderation(commands.Cog):
         await member.kick(reason=reason)
         embed = disnake.Embed(
             title="Succes",
-            description=f"Member: {member.name}\Reason: {reason}"
+            description=f"Member: {member.name}\nReason: {reason}",
+            color=disnake.Color.green()
         )
         await inter.response.send_message(embed=embed)
 
@@ -72,7 +73,8 @@ class moderation(commands.Cog):
         
         embed = disnake.Embed(
             title="Succes",
-            description=f"Member: {member.name}\nReason: {reason}\Warn ID: {warning_count}"
+            description=f"Member: @{member.name}({member.mention})\nReason: {reason}\nWarn ID: **`{warning_count}`**",
+            color=disnake.Color.green()
         )
         
         await inter.response.send_message(embed=embed)
@@ -83,18 +85,27 @@ class moderation(commands.Cog):
     @commands.slash_command(description="unwarn")
     async def unwarn(self, inter: disnake.AppCommandInter, member: disnake.Member, id: int, reason: str = None):
         async with aiosqlite.connect("main.db") as db:
-            await db.execute("""
+            cursor = await db.execute("""
                 DELETE FROM warnings WHERE user_id = ? AND warn_id = ?
                 """, (member.id, id))
             await db.commit()
+            deleted = cursor.rowcount
+            
+        if deleted == 0:
+            embed = disnake.Embed(
+                description=f"Warn with ID {id} not found for user {member.display_name}.",
+                color=disnake.Color.red()
+            )
+            await inter.response.send_message(embed=embed, ephemeral=True)
 
-        
-        embed = disnake.Embed(
-            title="Succes",
-            description=f"Member: {member.name}\nReason: {reason}"
-        )
-        
-        await inter.response.send_message(embed=embed)
+        else:
+            embed = disnake.Embed(
+                title="Succes",
+                description=f"Member: {member.name}\nReason: {reason}",
+                color=disnake.Color.green()
+            )
+            
+            await inter.response.send_message(embed=embed)
     
 
 
