@@ -32,7 +32,7 @@ Universal and lightweight template for your bot built with `disnake`. Easily add
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/YourUsername/discord-python-bot.git
+   git clone https://github.com/Ananas1kexe/bot-on-disnake
    cd discord-python-bot
    ```
 
@@ -46,7 +46,6 @@ Universal and lightweight template for your bot built with `disnake`. Easily add
      ```ini
      TOKEN="your_bot_token_here"
      ```
-   - Or edit `config.py` with your token and settings.
 
 ---
 
@@ -76,8 +75,8 @@ python main.py
 
 ## Useful Links
 
-- [Project Repository](https://github.com/YourUsername/discord-python-bot)
-- [MIT License](https://github.com/YourUsername/discord-python-bot/blob/main/LICENSE)
+- [Project Repository](https://github.com/Ananas1kexe/bot-on-disnake)
+- [MIT License](https://github.com/YourUsername/Ananas1kexe/blob/main/LICENSE)
 
 ---
 
